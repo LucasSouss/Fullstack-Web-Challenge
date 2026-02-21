@@ -4,13 +4,13 @@ import { TaskController } from '../controllers/TaskController';
 
 const router = Router();
 
-// Projetos
+// Projects
 router.get('/projects', ProjectController.index);
 router.post('/projects', ProjectController.store);
 router.put('/projects/:id', ProjectController.update);
 router.delete('/projects/:id', ProjectController.destroy);
 
-// Tarefas
+// Tasks
 router.post('/tasks', TaskController.store);
 router.delete('/tasks/:id', TaskController.destroy);
 router.patch('/tasks/:id/complete', TaskController.complete);

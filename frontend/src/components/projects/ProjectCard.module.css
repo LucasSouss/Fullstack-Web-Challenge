@@ -1,0 +1,138 @@
+.projectCard {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eaeaea;
+}
+
+.projectHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.projectHeader h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.editButton, .deleteButton {
+  padding: 4px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  color: #666;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.editButton:hover {
+  background: #f0f0f0;
+}
+
+.deleteButton:hover {
+  background: #fee;
+  color: #d32f2f;
+  border-color: #d32f2f;
+}
+
+.tasks {
+  min-height: 80px;
+  margin-bottom: 16px;
+}
+
+.taskItem {
+  padding: 12px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  border-left: 3px solid #2196f3;
+}
+
+.taskTitle {
+  font-weight: 500;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.taskTitle span {
+  color: #666;
+  font-size: 0.85rem;
+  font-weight: normal;
+}
+
+.taskMeta {
+  display: flex;
+  gap: 16px;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.taskResponsible::before {
+  content: "👤 ";
+}
+
+.taskDueDate::before {
+  content: "📅 ";
+}
+
+.noTasks {
+  padding: 20px;
+  text-align: center;
+  color: #999;
+  background: #f9f9f9;
+  border-radius: 6px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
+  padding: 12px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.stat {
+  text-align: center;
+  flex: 1;
+}
+
+.statValue {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  color: #999;
+  letter-spacing: 0.5px;
+}
+
+.viewButton {
+  width: 100%;
+  padding: 12px;
+  background: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.viewButton:hover {
+  background: #1976d2;
+}

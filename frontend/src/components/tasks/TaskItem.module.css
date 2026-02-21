@@ -1,0 +1,188 @@
+.taskItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  margin-bottom: 8px;
+  border: 1px solid #f0f4fa;
+  transition: all 0.2s;
+}
+
+.taskItem:hover {
+  border-color: #dbe7fe;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.taskItem.completed {
+  background-color: #f8fafc;
+  opacity: 0.8;
+}
+
+.taskCheckbox {
+  margin-top: 2px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #10b981;
+}
+
+.taskInfo {
+  flex: 1;
+}
+
+.taskHeader {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 8px;
+}
+
+.taskHeader h4 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.responsible {
+  background-color: #e6f0ff;
+  padding: 2px 10px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  color: #2563eb;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.responsible::before {
+  content: "👤";
+  font-size: 0.75rem;
+}
+
+.taskMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+}
+
+.dueDate {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.dueDate::before {
+  content: "📅";
+  font-size: 0.9rem;
+}
+
+.dueDate.overdue {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.dueDate.overdue::before {
+  content: "⚠️";
+}
+
+.dueDate.nearDue {
+  color: #f59e0b;
+  font-weight: 500;
+}
+
+.dueDate.nearDue::before {
+  content: "⏰";
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 12px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  gap: 4px;
+}
+
+.status.pendente {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status.pendente::before {
+  content: "⏳";
+}
+
+.status.concluida {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status.concluida::before {
+  content: "✅";
+}
+
+.status.vencida {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status.vencida::before {
+  content: "⚠️";
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.completeButton {
+  padding: 6px 14px;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.completeButton:hover {
+  background-color: #059669;
+}
+
+
+
+.deleteTaskButton {
+  padding: 6px 14px;
+  background-color: #fef2f2;
+  color: #ef4444;
+  border: 1px solid #fee2e2;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.deleteTaskButton:hover {
+  background-color: #fee2e2;
+  border-color: #ef4444;
+}
+
