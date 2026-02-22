@@ -12,7 +12,10 @@ router.delete('/projects/:id', ProjectController.destroy);
 
 // Tasks
 router.post('/tasks', TaskController.store);
+router.put('/tasks/:id', TaskController.update);
 router.delete('/tasks/:id', TaskController.destroy);
 router.patch('/tasks/:id/complete', TaskController.complete);
+router.put('/tasks/:id', TaskController.update);
+router.patch('/tasks/:id/status', TaskController.updateStatus);
 
 export { router };

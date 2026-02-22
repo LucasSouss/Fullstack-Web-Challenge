@@ -11,21 +11,20 @@ export default function TaskItem({ task, onComplete, onDelete }) {
     return styles.pendente;
   };
 
-  const handleCheckboxChange = () => {
-    if (task.status !== 'CONCLUIDA') {
-      onComplete(task.id);
-    }
-  };
+  const handleToggle = () => {
+  // Se está concluída, manda virar PENDENTE. Se não, manda virar CONCLUIDA.
+  const newStatus = task.status === 'CONCLUIDA' ? 'PENDENTE' : 'CONCLUIDA';
+  onComplete(task.id, newStatus); 
+}; // Agora passamos o novo status
+
 
   return (
     <div className={`${styles.taskItem} ${task.status === 'CONCLUIDA' ? styles.completed : ''}`}>
       <input 
-        type="checkbox"
-        className={styles.taskCheckbox}
-        checked={task.status === 'CONCLUIDA'}
-        onChange={handleCheckboxChange}
-        disabled={task.status === 'CONCLUIDA'}
-      />
+  type="checkbox" 
+  checked={task.status === 'CONCLUIDA'} 
+  onChange={handleToggle} 
+/>
       
       <div className={styles.taskInfo}>
         <div className={styles.taskHeader}>

@@ -1,285 +1,131 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Header from '../components/layout/Header';
-import Container from '../components/layout/Container';
+import styles from './page.module.css';
 import ProjectList from '../components/projects/ProjectList';
 import TaskList from '../components/tasks/TaskList';
-import Modal from '../components/common/Modal';
-import Loading from '../components/common/Loading';
-import Notification from '../components/common/Notification';
-import ProjectForm from '../components/projects/ProjectForm';
 import projectService from '../services/projectService';
 import taskService from '../services/taskService';
+import Modal from '../components/common/Modal';
+import Loading from '../components/common/Loading';
 import { useNotifications } from '../hooks/useNotifications';
-import { getStatusFromDate } from '../utils/dateUtils';
-import styles from './page.module.css';
-
-// Dados iniciais para teste
-const initialProjects = [
-  {
-    id: '1',
-    name: 'First Test',
-    tasks: []
-  },
-  {
-    id: '2',
-    name: 'Homework',
-    tasks: []
-  },
-  {
-    id: '3',
-    name: 'Personal Projects',
-    tasks: [
-      {
-        id: '101',
-        title: 'Run',
-        responsible: 'Lucas',
-        dueDate: '2026-02-23',
-        status: 'PENDENTE',
-        projectId: '3'
-      }
-    ]
-  }
-];
+import Notification from '../components/common/Notification';
 
 export default function Home() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [showProjectModal, setShowProjectModal] = useState(false);
-  const [projectToEdit, setProjectToEdit] = useState(null);
-  const [projectToDelete, setProjectToDelete] = useState(null);
+  const [projectToDelete, setProjectToDelete] = useState(null); // Novo estado
+  
+  useEffect(() => {
+    loadData();
+  }, []);
 
-  // Notificações
   const allTasks = projects.flatMap(p => p.tasks || []);
   const { notifications, removeNotification } = useNotifications(allTasks);
 
-  // Carregar projetos
-  useEffect(() => {
-    loadProjects();
-  }, []);
-
-  const loadProjects = async () => {
+  async function loadData() {
     try {
       setLoading(true);
-      
-      // Tenta carregar do backend, se falhar usa dados iniciais
-      let data;
-      try {
-        data = await projectService.listAll();
-      } catch (error) {
-        console.log('Usando dados iniciais (backend não disponível)');
-        data = initialProjects;
+      const data = await projectService.listAll();
+      setProjects(data);
+      if (data.length > 0) {
+        const current = data.find(p => p.id === selectedProject?.id);
+        setSelectedProject(current || data[0]);
       }
-      
-      // Atualizar status das tarefas baseado na data
-      const projectsWithUpdatedStatus = data.map(project => ({
-        ...project,
-        tasks: project.tasks?.map(task => ({
-          ...task,
-          status: getStatusFromDate(task.dueDate, task.status === 'CONCLUIDA')
-        })) || []
-      }));
-      
-      setProjects(projectsWithUpdatedStatus);
-    } catch (error) {
-      alert('Erro ao carregar projetos');
+    } catch (err) {
+      console.error(err);
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleCreateProject = async (name) => {
-    try {
-      // Se backend não disponível, cria localmente
-      try {
-        await projectService.create(name);
-      } catch (error) {
-        const newProject = {
-          id: Date.now().toString(),
-          name,
-          tasks: []
-        };
-        setProjects(prev => [...prev, newProject]);
-      }
-      await loadProjects();
-      setShowProjectModal(false);
-    } catch (error) {
-      alert('Erro ao criar projeto');
-    }
-  };
-
-  const handleUpdateProject = async (name) => {
-    try {
-      try {
-        await projectService.update(projectToEdit.id, name);
-      } catch (error) {
-        setProjects(prev => prev.map(p => 
-          p.id === projectToEdit.id ? { ...p, name } : p
-        ));
-      }
-      await loadProjects();
-      setProjectToEdit(null);
-    } catch (error) {
-      alert('Erro ao atualizar projeto');
-    }
-  };
-
-  const handleDeleteProject = async () => {
-    try {
-      try {
-        await projectService.delete(projectToDelete.id);
-      } catch (error) {
-        setProjects(prev => prev.filter(p => p.id !== projectToDelete.id));
-      }
-      await loadProjects();
-      setProjectToDelete(null);
-      
-      if (selectedProject?.id === projectToDelete.id) {
-        setSelectedProject(null);
-      }
-    } catch (error) {
-      alert('Erro ao excluir projeto');
-    }
-  };
-
-  const handleAddTask = async (taskData) => {
-    try {
-      try {
-        await taskService.create(taskData);
-      } catch (error) {
-        // Cria tarefa localmente
-        const newTask = {
-          id: Date.now().toString(),
-          ...taskData,
-          status: 'PENDENTE'
-        };
-        
-        setProjects(prev => prev.map(project => 
-          project.id === taskData.projectId 
-            ? { ...project, tasks: [...(project.tasks || []), newTask] }
-            : project
-        ));
-      }
-      await loadProjects();
-    } catch (error) {
-      alert('Erro ao criar tarefa');
-    }
-  };
-
-  const handleCompleteTask = async (taskId) => {
-    try {
-      try {
-        await taskService.complete(taskId);
-      } catch (error) {
-        // Atualiza localmente
-        setProjects(prev => prev.map(project => ({
-          ...project,
-          tasks: project.tasks?.map(task => 
-            task.id === taskId ? { ...task, status: 'CONCLUIDA' } : task
-          )
-        })));
-      }
-      await loadProjects();
-    } catch (error) {
-      alert('Erro ao completar tarefa');
-    }
-  };
-
-  const handleDeleteTask = async (taskId) => {
-    try {
-      try {
-        await taskService.delete(taskId);
-      } catch (error) {
-        // Remove localmente
-        setProjects(prev => prev.map(project => ({
-          ...project,
-          tasks: project.tasks?.filter(task => task.id !== taskId)
-        })));
-      }
-      await loadProjects();
-    } catch (error) {
-      alert('Erro ao excluir tarefa');
-    }
-  };
-
-  if (loading) {
-    return (
-      <>
-        <Header projectCount={projects.length} />
-        <Container>
-          <Loading />
-        </Container>
-      </>
-    );
   }
 
-  return (
-    <main className={styles.main}>
-      <Header projectCount={projects.length} />
-      
-      <Notification 
-        notifications={notifications}
-        onClose={removeNotification}
-      />
+  const handleConfirmDeleteProject = async () => {
+    if (projectToDelete) {
+      await projectService.delete(projectToDelete.id);
+      setProjectToDelete(null);
+      loadData();
+    }
+  };
 
-      <Container>
+  if (loading) return <Loading />;
+
+  return (
+    <main className={styles.mainContainer}>
+      <Notification 
+        notifications={notifications} 
+        onClose={removeNotification} 
+      />
+      <aside className={styles.sidebar}>
+        <h2 className={styles.sidebarTitle}>Projects</h2>
+        <ProjectList 
+          projects={projects} 
+          selectedId={selectedProject?.id}
+          onViewTasks={(p) => setSelectedProject(p)}
+          onDeleteProject={(p) => setProjectToDelete(p)} // Nova prop
+        />
+        <button className={styles.addNewBtn}>+ New Project</button>
+      </aside>
+
+      <section className={styles.contentArea}>
         {selectedProject ? (
-          <TaskList
-            project={selectedProject}
-            tasks={selectedProject.tasks || []}
-            onAddTask={handleAddTask}
-            onCompleteTask={handleCompleteTask}
-            onDeleteTask={handleDeleteTask}
+          <TaskList 
+            project={selectedProject} 
+            tasks={selectedProject.tasks || []} 
+            onAddTask={async (taskData) => {
+              try {
+                await taskService.create(taskData);
+                await loadData();
+              } catch (err) {
+                console.error('Erro ao criar tarefa', err);
+                alert('Erro ao criar tarefa');
+              }
+            }}
+            onCompleteTask={async (taskId, newStatus) => {
+              try {
+                if (newStatus) {
+                  // toggle back to PENDENTE or set explicit status
+                  await taskService.update(taskId, { status: newStatus });
+                } else {
+                  await taskService.complete(taskId);
+                }
+                await loadData();
+              } catch (err) {
+                console.error('Erro ao completar/atualizar tarefa', err);
+                alert('Erro ao completar tarefa');
+              }
+            }}
+            onDeleteTask={async (taskId) => {
+              try {
+                console.log('Iniciando exclusão de tarefa ID:', taskId);
+                await taskService.delete(taskId);
+                console.log('Tarefa deletada, recarregando...');
+                await loadData();
+              } catch (err) {
+                console.error('Erro completo ao deletar tarefa:', err);
+                console.error('Status:', err.response?.status);
+                console.error('Dados do erro:', err.response?.data);
+                alert('Erro ao deletar tarefa');
+              }
+            }}
             onBack={() => setSelectedProject(null)}
           />
         ) : (
-          <ProjectList
-            projects={projects}
-            onEdit={(project) => setProjectToEdit(project)}
-            onDelete={(project) => setProjectToDelete(project)}
-            onViewTasks={(project) => setSelectedProject(project)}
-            onAddNew={() => setShowProjectModal(true)}
-          />
+          <div className={styles.emptyState}>Selecione um projeto...</div>
         )}
-      </Container>
+      </section>
 
-      <Modal
-        isOpen={showProjectModal}
-        onClose={() => setShowProjectModal(false)}
-        title="Novo Projeto"
-      >
-        <ProjectForm
-          onSubmit={handleCreateProject}
-          onCancel={() => setShowProjectModal(false)}
-        />
-      </Modal>
-
-      <Modal
-        isOpen={!!projectToEdit}
-        onClose={() => setProjectToEdit(null)}
-        title="Editar Projeto"
-      >
-        <ProjectForm
-          initialName={projectToEdit?.name}
-          onSubmit={handleUpdateProject}
-          onCancel={() => setProjectToEdit(null)}
-          isEditing={true}
-        />
-      </Modal>
-
+      {/* MODAL DE CONFIRMAÇÃO IGUAL AO DE TAREFAS */}
       <Modal
         isOpen={!!projectToDelete}
         onClose={() => setProjectToDelete(null)}
         title="Confirmar exclusão"
         showConfirm={true}
-        onConfirm={handleDeleteProject}
+        onConfirm={handleConfirmDeleteProject}
         confirmText="Excluir"
       >
-        <p>Tem certeza que deseja excluir o projeto?</p>
-        <p><strong>{projectToDelete?.name}</strong></p>
-        <p>Esta ação também excluirá todas as tarefas relacionadas e não pode ser desfeita.</p>
+        <p>Tem certeza que deseja excluir o projeto <strong>{projectToDelete?.name}</strong>?</p>
+        <p>Todas as tarefas relacionadas serão removidas permanentemente.</p>
       </Modal>
     </main>
   );
