@@ -62,7 +62,7 @@ export default function TaskList({
       </div>
 
       <div className={styles.header}>
-        <h2>Tarefas</h2>
+        <h2 className={styles.titleHeader}>Tarefas</h2>
         <div className={styles.filters}>
             <button
               className={`${styles.filterButton} ${filter === 'TODAS' ? styles.active : ''}`}
@@ -118,12 +118,12 @@ export default function TaskList({
         )}
       </div>
 
-      {/* BOTÃO ADICIONAR TAREFA (Posicionado conforme o Wireframe) */}
+      
       <button 
         className={styles.addTaskBtn} 
         onClick={() => setShowAddModal(true)}
       >
-        + Add Task
+        + Adicionar Tarefa
       </button>
 
 

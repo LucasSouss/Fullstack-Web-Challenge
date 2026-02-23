@@ -1,5 +1,8 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 20px;
+  padding: 2rem;
+  min-height: 100vh;
+  background-color: #0f172a; /* Slate 950 - Fundo principal */
+  color: #f8fafc;
 }

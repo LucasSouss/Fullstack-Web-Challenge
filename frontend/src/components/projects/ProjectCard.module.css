@@ -1,138 +1,111 @@
 .projectCard {
-  background: white;
+  background-color: #1e293b; /* Slate 800 */
+  border: 1px solid #334155;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #eaeaea;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.projectCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  border-color: #3b82f6;
 }
 
 .projectHeader {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+  align-items: flex-start;
 }
 
 .projectHeader h3 {
   margin: 0;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
+  font-size: 1.25rem;
+  color: #f8fafc;
 }
 
-.actions {
-  display: flex;
-  gap: 8px;
-}
-
-.editButton, .deleteButton {
-  padding: 4px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  color: #666;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.editButton:hover {
-  background: #f0f0f0;
-}
-
-.deleteButton:hover {
-  background: #fee;
-  color: #d32f2f;
-  border-color: #d32f2f;
-}
-
+/* Área da Primeira Tarefa (Preview) */
 .tasks {
-  min-height: 80px;
-  margin-bottom: 16px;
-}
-
-.taskItem {
+  background: rgba(15, 23, 42, 0.5); /* Slate 900 transparente */
   padding: 12px;
-  background: #f9f9f9;
-  border-radius: 6px;
-  border-left: 3px solid #2196f3;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
 }
 
 .taskTitle {
-  font-weight: 500;
-  margin-bottom: 4px;
+  font-weight: 600;
   display: flex;
-  align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  color: #e2e8f0;
 }
 
 .taskTitle span {
-  color: #666;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+  color: #94a3b8;
   font-weight: normal;
 }
 
 .taskMeta {
   display: flex;
-  gap: 16px;
-  font-size: 0.85rem;
-  color: #666;
-}
-
-.taskResponsible::before {
-  content: "👤 ";
-}
-
-.taskDueDate::before {
-  content: "📅 ";
-}
-
-.noTasks {
-  padding: 20px;
-  text-align: center;
-  color: #999;
-  background: #f9f9f9;
-  border-radius: 6px;
-}
-
-.stats {
-  display: flex;
   justify-content: space-between;
-  margin: 16px 0;
+  font-size: 0.8rem;
+  margin-top: 8px;
+  color: #94a3b8;
+}
+
+/* Seção de Estatísticas (Grid) */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
   padding: 12px 0;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  border-top: 1px solid #334155;
+  border-bottom: 1px solid #334155;
 }
 
 .stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  flex: 1;
 }
 
 .statValue {
-  display: block;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #333;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #f8fafc;
 }
 
 .statLabel {
-  font-size: 0.75rem;
-  color: #999;
-  letter-spacing: 0.5px;
+  font-size: 0.65rem;
+  color: #64748b;
+  letter-spacing: 0.05em;
 }
 
+/* Botões */
 .viewButton {
-  width: 100%;
-  padding: 12px;
-  background: #2196f3;
+  background: #3b82f6;
   color: white;
   border: none;
+  padding: 10px;
   border-radius: 6px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: filter 0.2s;
 }
 
-.viewButton:hover {
-  background: #1976d2;
+.viewButton:hover { filter: brightness(1.1); }
+
+.editButton, .deleteButton {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 4px 8px;
 }
+
+.deleteButton:hover { color: #ef4444; }

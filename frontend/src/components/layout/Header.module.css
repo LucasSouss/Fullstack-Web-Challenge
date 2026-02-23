@@ -1,39 +1,29 @@
 .header {
-  background-color: white;
-  color: #1e293b;
-  padding: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-  border-bottom: 1px solid #e9edf5;
+  background-color: #1e293b;
+  border-bottom: 1px solid #334155;
+  padding: 1rem 2rem;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .logo {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #2563eb;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.logo::before {
-  content: "📋";
-  font-size: 1.8rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f8fafc;
+  letter-spacing: -0.025em;
 }
 
 .projectCount {
-  background-color: #f1f5f9;
-  padding: 0.5rem 1rem;
-  border-radius: 30px;
-  font-size: 0.9rem;
-  color: #475569;
+  font-size: 0.85rem;
+  background: #334155;
+  color: #f8fafc;
+  padding: 4px 12px;
+  border-radius: 999px;
   font-weight: 500;
 }

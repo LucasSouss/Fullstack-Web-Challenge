@@ -1,35 +1,77 @@
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px; /* Aumentei o espaçamento para destacar as bordas individuais */
+  width: 100%;
+  padding: 4px;
 }
 
 .projectWrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  background-color: #1e293b; /* Fundo levemente mais claro que a sidebar */
+  border: 1px solid #334155; /* Borda padrão */
+  border-radius: 8px; /* Cantos arredondados */
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Efeito de destaque ao passar o mouse no card do projeto */
+.projectWrapper:hover {
+  border-color: #475569;
+  background-color: #1154c9;
+  transform: translateY(-1px);
+}
+
+/* Quando o projeto está selecionado, a borda ganha cor */
+.projectWrapper:has(.active) {
+  border-color: #00fdd3;
+  box-shadow: 0 0 0 1px #3b82f6;
 }
 
 .item {
-  text-align: left;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 10px;
   flex: 1;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.2s;
 }
 
+.item:hover {
+  color: #f8fafc;
+}
+
+/* Estilo interno para o estado Ativo */
+.active {
+  color: #3b82f6 !important;
+  font-weight: 600;
+}
+
+/* Botão de Excluir dentro da borda */
 .deleteBtn {
-  font-size: 30px;
-  color: #999;
-  padding: 0 10px;
+  background: rgba(0, 0, 0, 0.2); /* Fundo sutil para separar o X */
+  border: none;
+  border-left: 1px solid #334155; /* Linha divisória interna */
+  color: #64748b;
+  font-size: 1.2rem;
+  padding: 0 12px;
+  height: 100%; /* Ocupa a altura toda da borda */
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
 }
 
 .deleteBtn:hover {
-  color: #ff0000;
-}
-
-.active {
-  border: 2px solid #000;
-  background: #fff;
+  background-color: #ef4444;
+  color: white;
+  border-left-color: #ef4444;
 }

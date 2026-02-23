@@ -1,33 +1,80 @@
 .mainContainer {
   display: flex;
-  min-height: 100vh;
-  border: 4px solid #000; /* Borda externa do wireframe */
+  height: 100vh;
+  background-color: #0f172a; /* Slate 950 - Fundo Geral */
+  color: #f8fafc;
+  overflow: hidden; /* Evita scroll na página inteira, apenas nos containers internos */
 }
 
+/* BARRA LATERAL (SIDEBAR) */
 .sidebar {
-  width: 260px;
-  background-color: #d9d9d9; /* Cinza da imagem */
-  border-right: 2px solid #000;
-  padding: 30px 20px;
+  width: 280px;
+  background-color: #1e293b; /* Slate 800 */
+  border-right: 1px solid #334155;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  gap: 20px;
 }
 
 .sidebarTitle {
-  font-size: 28px;
-  margin-bottom: 30px;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  margin-bottom: 8px;
+  padding-left: 12px;
 }
 
-.contentArea {
-  flex: 1;
-  padding: 40px;
-}
-
+/* BOTÃO DE NOVO PROJETO NA SIDEBAR */
 .addNewBtn {
-  margin-top: 50px;
-  color: #0056b3;
-  font-weight: bold;
-  text-decoration: none;
+  margin-top: auto; /* Empurra o botão para o final da sidebar */
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .addNewBtn:hover {
-  text-decoration: underline;
+  filter: brightness(1.1);
+}
+
+/* ÁREA DE CONTEÚDO PRINCIPAL (TASKLIST) */
+.contentArea {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto; /* Scroll apenas aqui se a lista de tarefas for longa */
+  background-color: #0f172a;
+}
+
+/* ESTADO VAZIO (QUANDO NÃO HÁ PROJETO SELECIONADO) */
+.emptyState {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  font-size: 1.1rem;
+  font-style: italic;
+  border: 2px dashed #334155;
+  border-radius: 16px;
+  margin: 20px;
+}
+
+/* AJUSTE PARA O MODAL DENTRO DESTA PÁGINA */
+.mainContainer :global(p) {
+  margin: 8px 0;
+  color: #cbd5e1;
+}
+
+.mainContainer strong {
+  color: #f8fafc;
 }
