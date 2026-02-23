@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { parseLocalDate, toISODateString } from '../../utils/dateUtils';
 import styles from './TaskForm.module.css';
 
-export default function TaskForm({ onSubmit, onCancel, projectId }) {
+export default function TaskForm({ onSubmit, onCancel, projectId, initialData }) {
   const [formData, setFormData] = useState({
     title: '',
     responsible: '',
@@ -9,6 +10,18 @@ export default function TaskForm({ onSubmit, onCancel, projectId }) {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (initialData) {
+      // Para edição: converter data para formato de input (YYYY-MM-DD)
+      const dateStr = initialData.dueDate?.split('T')[0] || '';
+      setFormData({
+        title: initialData.title,
+        responsible: initialData.responsible,
+        dueDate: dateStr
+      });
+    }
+  }, [initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,22 +33,30 @@ export default function TaskForm({ onSubmit, onCancel, projectId }) {
   };
 
   const validate = () => {
-  const newErrors = {};
-  
-  if (!formData.dueDate) {
-    newErrors.dueDate = 'A data de conclusão é obrigatória';
-  } else {
-    const selectedDate = new Date(formData.dueDate + 'T00:00:00');
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const newErrors = {};
     
-    if (selectedDate < today) {
-      newErrors.dueDate = 'A data não pode ser no passado';
+    if (!formData.title?.trim()) {
+      newErrors.title = 'O título é obrigatório';
     }
-  }
-  // ... restante da validação (title, responsible)
-  return newErrors;
-};
+    
+    if (!formData.responsible?.trim()) {
+      newErrors.responsible = 'O responsável é obrigatório';
+    }
+    
+    if (!formData.dueDate) {
+      newErrors.dueDate = 'A data de conclusão é obrigatória';
+    } else {
+      const selectedDate = parseLocalDate(formData.dueDate);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      if (selectedDate < today && !initialData) {
+        newErrors.dueDate = 'A data não pode ser no passado';
+      }
+    }
+    
+    return newErrors;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,12 +71,13 @@ export default function TaskForm({ onSubmit, onCancel, projectId }) {
       setLoading(true);
       await onSubmit({
         ...formData,
+        dueDate: formData.dueDate, // Envia como YYYY-MM-DD string
         projectId
       });
       setFormData({ title: '', responsible: '', dueDate: '' });
       setErrors({});
     } catch (error) {
-      setErrors({ submit: 'Erro ao criar tarefa' });
+      setErrors({ submit: 'Erro ao salvar tarefa' });
     } finally {
       setLoading(false);
     }

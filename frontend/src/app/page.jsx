@@ -81,10 +81,18 @@ export default function Home() {
                 alert('Erro ao criar tarefa');
               }
             }}
+            onUpdateTask={async (taskId, taskData) => {
+              try {
+                await taskService.update(taskId, taskData);
+                await loadData();
+              } catch (err) {
+                console.error('Erro ao editar tarefa', err);
+                alert('Erro ao editar tarefa');
+              }
+            }}
             onCompleteTask={async (taskId, newStatus) => {
               try {
                 if (newStatus) {
-                  // toggle back to PENDENTE or set explicit status
                   await taskService.update(taskId, { status: newStatus });
                 } else {
                   await taskService.complete(taskId);

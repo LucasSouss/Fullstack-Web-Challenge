@@ -1,20 +1,45 @@
-/* TaskItem.module.css */
 .taskItem {
   display: flex;
   align-items: center;
-  padding: 15px 0;
-  border-bottom: 2px solid #000;
-  gap: 15px;
+  padding: 16px;
+  background: var(--bg-card);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  border: 1px solid transparent;
+  transition: border 0.3s;
 }
 
-.status {
+.taskItem:hover {
+  border-color: var(--border);
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent-green);
+  margin-right: 15px;
+}
+
+.taskContent {
+  flex: 1;
+}
+
+.taskTitle {
+  font-weight: 600;
+  display: block;
+}
+
+.taskDetails {
+  display: flex;
+  gap: 15px; /* Resolve o erro da imagem: espaço entre data e responsável */
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.statusBadge {
+  font-size: 0.75rem;
   padding: 2px 8px;
-  margin-left: 3%;
-  border: 1px solid #000; /* Mantendo o estilo wireframe */
-  text-transform: lowercase;
-}
-
-
-.overdue {
-  color: red;
+  border-radius: 4px;
+  text-transform: uppercase;
 }

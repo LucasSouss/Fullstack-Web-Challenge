@@ -8,7 +8,7 @@ export default function TaskList({
   project, 
   tasks, 
   onAddTask, 
-  onUpdateTask, // ACRESCENTADO
+  onUpdateTask, 
   onCompleteTask, 
   onDeleteTask,
   onBack 

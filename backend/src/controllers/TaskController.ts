@@ -3,6 +3,13 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+// Helper para parsear data no formato YYYY-MM-DD como UTC
+const parseLocalDate = (dateString: string): Date => {
+  // dateString vem como "2026-02-23"
+  // Converte para UTC 00:00:00
+  return new Date(`${dateString}T00:00:00Z`);
+};
+
 export const TaskController = {
   async store(req: Request, res: Response) {
     try {
@@ -16,13 +23,14 @@ export const TaskController = {
         data: {
           title,
           responsible,
-          dueDate: new Date(dueDate),
+          dueDate: parseLocalDate(dueDate),
           projectId: String(projectId),
           status: "PENDENTE"
         }
       });
       return res.status(201).json(task);
     } catch (error) {
+      console.error('Erro ao criar tarefa:', error);
       return res.status(400).json({ error: "Erro ao criar tarefa. Verifique o ID do projeto." });
     }
   },
@@ -51,7 +59,7 @@ export const TaskController = {
       const data: any = {};
       if (title !== undefined) data.title = title;
       if (responsible !== undefined) data.responsible = responsible;
-      if (dueDate !== undefined && dueDate !== null) data.dueDate = new Date(dueDate);
+      if (dueDate !== undefined && dueDate !== null) data.dueDate = parseLocalDate(dueDate);
       if (status !== undefined) data.status = status;
 
       const task = await prisma.task.update({
@@ -84,7 +92,8 @@ export const TaskController = {
     try {
       const { id } = req.params;
       console.log('Tentando deletar tarefa:', id);
-      await prisma.task.delete({ where: { id: String(id) } });
+      await prisma.task.delete({ 
+        where: { id: String(id) } });
       console.log('Tarefa deletada com sucesso:', id);
       return res.status(200).json({ message: 'Tarefa excluída com sucesso.', id });
     } catch (error) {
