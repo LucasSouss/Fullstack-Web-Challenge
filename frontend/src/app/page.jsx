@@ -6,6 +6,7 @@ import ProjectList from "../components/projects/ProjectList";
 import TaskList from "../components/tasks/TaskList";
 import projectService from "../services/projectService";
 import taskService from "../services/taskService";
+import taskUtilsService from "../services/taskUtilsService";
 import Modal from "../components/common/Modal";
 import Loading from "../components/common/Loading";
 import { useNotifications } from "../hooks/useNotifications";
@@ -24,12 +25,14 @@ export default function Home() {
     loadData();
   }, []);
 
-  const allTasks = projects.flatMap((p) => p.tasks || []);
+  const allTasks = projects.map((p) => p.tasks || []);
   const { notifications, removeNotification } = useNotifications(allTasks);
 
   async function loadData() {
     try {
       setLoading(true);
+      // Atualiza tarefas vencidas no backend antes de carregar projetos
+      await taskUtilsService.updateOverdueTasks();
       const data = await projectService.listAll();
       setProjects(data);
       if (data.length > 0) {

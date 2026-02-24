@@ -11,6 +11,35 @@ const parseLocalDate = (dateString: string): Date => {
 };
 
 export const TaskController = {
+    // atualiza tarefas vencidas
+    async updateOverdueTasks(req: Request, res: Response) {
+      try {
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        // Busca todas as tarefas não concluídas
+        const tasks = await prisma.task.findMany({
+          where: {
+            status: {not: "CONCLUIDA"}
+          }
+        });
+        let updatedCount = 0;
+        for (const task of tasks) {
+          const dueDate = new Date(task.dueDate);
+          dueDate.setHours(0,0,0,0);
+          if (dueDate < today && task.status !== "VENCIDA") {
+            await prisma.task.update({
+              where: { id: task.id },
+              data: { status: "VENCIDA" }
+            });
+            updatedCount++;
+          }
+        }
+        return res.json({ message: `Tarefas vencidas atualizadas: ${updatedCount}` });
+      } catch (error) {
+        console.error('Erro ao atualizar tarefas vencidas:', error);
+        return res.status(500).json({ error: "Erro ao atualizar tarefas vencidas." });
+      }
+    },
   async store(req: Request, res: Response) {
     try {
       const { title, responsible, dueDate, projectId } = req.body;

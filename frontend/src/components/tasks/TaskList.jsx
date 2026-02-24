@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { getStatusFromDate } from '../../utils/dateUtils';
 import TaskItem from './TaskItem';
 import TaskForm from './TaskForm';
 import Modal from '../common/Modal';
@@ -13,17 +14,27 @@ export default function TaskList({
   onDeleteTask,
   onBack 
 }) {
+  // Rotina automática: atualiza status local de tarefas vencidas
+  const normalizedTasks = tasks.map(task => {
+    if (task.status !== 'CONCLUIDA') {
+      const newStatus = getStatusFromDate(task.dueDate, false);
+      if (newStatus !== task.status) {
+        return { ...task, status: newStatus };
+      }
+    }
+    return task;
+  });
   const [filter, setFilter] = useState('TODAS');
   const [showAddModal, setShowAddModal] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [taskToEdit, setTaskToEdit] = useState(null);
 
   const filterTasks = () => {
-    if (filter === 'TODAS') return tasks;
-    if (filter === 'PENDENTES') return tasks.filter(t => t.status === 'PENDENTE');
-    if (filter === 'CONCLUIDAS') return tasks.filter(t => t.status === 'CONCLUIDA');
-    if (filter === 'VENCIDAS') return tasks.filter(t => t.status === 'VENCIDA');
-    return tasks;
+    if (filter === 'TODAS') return normalizedTasks;
+    if (filter === 'PENDENTES') return normalizedTasks.filter(t => t.status === 'PENDENTE');
+    if (filter === 'CONCLUIDAS') return normalizedTasks.filter(t => t.status === 'CONCLUIDA');
+    if (filter === 'VENCIDAS') return normalizedTasks.filter(t => t.status === 'VENCIDA');
+    return normalizedTasks;
   };
 
   const filteredTasks = filterTasks();
@@ -40,10 +51,10 @@ export default function TaskList({
   };
 
   const taskStats = {
-    total: tasks.length,
-    completed: tasks.filter(t => t.status === 'CONCLUIDA').length,
-    pending: tasks.filter(t => t.status === 'PENDENTE').length,
-    overdue: tasks.filter(t => t.status === 'VENCIDA').length,
+    total: normalizedTasks.length,
+    completed: normalizedTasks.filter(t => t.status === 'CONCLUIDA').length,
+    pending: normalizedTasks.filter(t => t.status === 'PENDENTE').length,
+    overdue: normalizedTasks.filter(t => t.status === 'VENCIDA').length,
   };
 
   return (

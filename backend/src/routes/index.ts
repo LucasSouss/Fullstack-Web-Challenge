@@ -18,4 +18,7 @@ router.patch('/tasks/:id/complete', TaskController.complete);
 router.put('/tasks/:id', TaskController.update);
 router.patch('/tasks/:id/status', TaskController.updateStatus);
 
+// Rota para atualizar tarefas vencidas
+router.get('/tasks/update-overdue', TaskController.updateOverdueTasks);
+
 export { router };
