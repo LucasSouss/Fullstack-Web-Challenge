@@ -17,7 +17,7 @@
 }
 
 .sidebarTitle {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -26,8 +26,8 @@
 }
 
 .addNewBtn {
-  margin-top: auto;
-  background-color: #3b82f6;
+  margin-top: 1rem;
+  background-color: #009cf7;
   color: white;
   border: none;
   padding: 12px;

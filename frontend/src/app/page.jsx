@@ -11,6 +11,7 @@ import Modal from "../components/common/Modal";
 import Loading from "../components/common/Loading";
 import { useNotifications } from "../hooks/useNotifications";
 import Notification from "../components/common/Notification";
+import Header from "../components/layout/Header";
 
 export default function Home() {
   const [projects, setProjects] = useState([]);
@@ -85,7 +86,8 @@ export default function Home() {
         onClose={removeNotification}
       />
       <aside className={styles.sidebar}>
-        <h2 className={styles.sidebarTitle}>Projects</h2>
+        <Header/>
+        <h2 className={styles.sidebarTitle}>Projetos</h2>
         <ProjectList
           projects={projects}
           selectedId={selectedProject?.id}

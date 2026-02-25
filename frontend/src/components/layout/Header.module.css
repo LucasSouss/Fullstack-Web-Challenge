@@ -1,7 +1,7 @@
 .header {
   background-color: #1e293b;
   border-bottom: 1px solid #334155;
-  padding: 1rem 2rem;
+  padding: 0.7rem ;
 }
 
 .container {
@@ -13,17 +13,9 @@
 }
 
 .logo {
-  font-size: 1.25rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #f8fafc;
   letter-spacing: -0.025em;
 }
 
-.projectCount {
-  font-size: 0.85rem;
-  background: #334155;
-  color: #f8fafc;
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-weight: 500;
-}

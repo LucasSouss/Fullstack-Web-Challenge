@@ -4,8 +4,8 @@
   margin-bottom: 37px;
   border-radius: 10px;
   border: none;
-  background-color: #009cf7;
-  color: white; 
+  background-color: #5f3f9b;
+  color: #1a0404; 
   font-weight: bold ;
   transition: all 0.2s;
 }
@@ -132,7 +132,7 @@
   margin-top: 10px;
   border-radius: 10px;
   border: none;
-  background-color: var(--accent);
+  background-color: #009cf7;
   color: white; 
   font-weight: bold ;
   transition: all 0.2s;
