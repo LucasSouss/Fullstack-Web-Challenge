@@ -1,77 +1,66 @@
-import { poku, assert } from "poku";
-import { formatDate, isOverdue, getStatusText } from "../src/utils/dateUtils.js";
+// 1. Bibliotecas externas
+import { assert } from "poku";
+import { 
+  formatDate, 
+  isOverdue, 
+  isNearDue, 
+  toISODateString,
+  getStatusText 
+} from "../src/utils/dateUtils.js";
 
-// ---------------------------------------------------------
-// 1. TESTES DE UTILITÁRIOS (DateUtils)
-// ---------------------------------------------------------
+// 3. Serviços (Comunicação com API)
+import projectService from "../src/services/projectService.js";
+import taskService from "../src/services/taskService.js";
 
+// 1. TESTES DE UTILITÁRIOS
 console.log("🧪 Testando: Utils de Data...");
 
 // Teste de Formatação
-assert.equal(
-  formatDate("2026-12-31"), 
-  "31/12/2026", 
-  "Deve formatar data YYYY-MM-DD para DD/MM/YYYY"
-);
+assert.equal(formatDate("2026-12-31"), "31/12/2026", "Deve formatar data ISO para padrão BR");
 
-// Teste de Verificação de Atraso (Overdue)
-const dataPassada = "2020-01-01";
-assert.equal(
-  isOverdue(dataPassada), 
-  true, 
-  "Data de 2020 deve ser considerada vencida"
-);
+// Teste de Verificação de Atraso
+assert.equal(isOverdue("2020-01-01"), true, "Data antiga deve retornar Vencida (true)");
+assert.equal(isOverdue("2099-01-01"), false, "Data futura não deve retornar Vencida (false)");
 
-const dataFutura = "2099-01-01";
-assert.equal(
-  isOverdue(dataFutura), 
-  false, 
-  "Data de 2099 não deve estar vencida"
-);
+// Teste de Proximidade (Dinâmico)
+const hoje = new Date();
+const amanha = new Date(hoje);
+amanha.setDate(hoje.getDate() + 1);
+const amanhaStr = toISODateString(amanha);
 
-// Teste de Texto de Status
-assert.equal(
-  getStatusText("CONCLUIDA"), 
-  "Concluída", 
-  "Deve converter chave de status para texto amigável"
-);
+assert.equal(isNearDue(amanhaStr, 2), true, "Data de amanhã deve estar 'perto'");
 
-// ---------------------------------------------------------
-// 2. TESTES DE ESTRUTURA DE SERVIÇOS (Mocks)
-// ---------------------------------------------------------
-// Aqui verificamos se os serviços que você criou possuem os métodos necessários
+// Teste de Conversão de Objeto para String
+const dataObjeto = new Date(2025, 4, 20); 
+assert.equal(toISODateString(dataObjeto), "2025-05-20", "Deve converter objeto para YYYY-MM-DD");
 
-import projectService from "../src/services/projectService.js";
+// Teste de Texto de Status (Adicionado para usar o import)
+assert.equal(getStatusText("CONCLUIDA"), "Concluída", "Deve retornar o texto amigável do status");
 
+// 2. TESTES DE INTEGRIDADE DE SERVIÇOS
 console.log("🧪 Testando: Camada de Serviços...");
 
-assert.ok(
-  typeof projectService.listAll === "function", 
-  "O serviço de projetos deve ter o método listAll"
-);
+const checarMetodos = (servico, nome, metodos) => {
+  metodos.forEach(m => {
+    assert.ok(typeof servico[m] === "function", `O serviço ${nome} deve possuir o método: ${m}`);
+  });
+};
 
-assert.ok(
-  typeof projectService.create === "function", 
-  "O serviço de projetos deve ter o método create"
-);
+checarMetodos(projectService, "ProjectService", ['listAll', 'create', 'update', 'delete']);
+checarMetodos(taskService, "TaskService", ['create', 'update', 'complete', 'delete']);
 
-// ---------------------------------------------------------
-// 3. TESTES DE LÓGICA DE NEGÓCIO (Cálculo de Estatísticas)
-// ---------------------------------------------------------
-// Simulando a lógica que você usa no ProjectCard e TaskList
 
-console.log("🧪 Testando: Lógica de Estatísticas...");
+// 3. TESTES DE LÓGICA DE INTERFACE
 
-const mockTasks = [
+console.log("🧪 Testando: Lógica de Filtros...");
+
+const tarefasMock = [
   { id: 1, status: 'CONCLUIDA' },
   { id: 2, status: 'PENDENTE' },
-  { id: 3, status: 'PENDENTE' }
+  { id: 3, status: 'VENCIDA' }
 ];
 
-const completedCount = mockTasks.filter(t => t.status === 'CONCLUIDA').length;
-assert.equal(completedCount, 1, "O cálculo de tarefas concluídas deve ser 1");
+const totalConcluidas = tarefasMock.filter(t => t.status === 'CONCLUIDA').length;
+assert.equal(totalConcluidas, 1, "Cálculo de concluídas deve ser 1");
 
-const pendingCount = mockTasks.filter(t => t.status === 'PENDENTE').length;
-assert.equal(pendingCount, 2, "O cálculo de tarefas pendentes deve ser 2");
-
-console.log("\n✅ Todos os testes unitários de lógica do Front-end passaram!");
+console.log("\n✅ SUCESSO: Todos os testes de unidade passaram!");

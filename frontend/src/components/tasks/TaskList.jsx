@@ -15,7 +15,7 @@ export default function TaskList({
   onDeleteTask,
   onBack 
 }) {
-  // Rotina automática: atualiza status local de tarefas vencidas
+  // ATUALIZA STATUS DAS TAREFAS COM BASE NA DATA ATUAL
   const normalizedTasks = tasks.map(task => {
     if (task.status !== 'CONCLUIDA') {
       const newStatus = getStatusFromDate(task.dueDate, false);

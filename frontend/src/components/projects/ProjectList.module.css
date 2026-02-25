@@ -1,7 +1,7 @@
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 12px; /* Aumentei o espaçamento para destacar as bordas individuais */
+  gap: 12px; 
   width: 100%;
   padding: 4px;
 }
@@ -9,21 +9,21 @@
 .projectWrapper {
   display: flex;
   align-items: center;
-  background-color: #1e293b; /* Fundo levemente mais claro que a sidebar */
-  border: 1px solid #334155; /* Borda padrão */
-  border-radius: 8px; /* Cantos arredondados */
+  background-color: #1e293b; 
+  border: 1px solid #334155; 
+  border-radius: 8px; 
   overflow: hidden;
   transition: all 0.2s ease-in-out;
 }
 
-/* Efeito de destaque ao passar o mouse no card do projeto */
+
 .projectWrapper:hover {
   border-color: #475569;
   background-color: #1154c9;
   transform: translateY(-1px);
 }
 
-/* Quando o projeto está selecionado, a borda ganha cor */
+
 .projectWrapper:has(.active) {
   border-color: #00fdd3;
   box-shadow: 0 0 0 1px #3b82f6;
@@ -49,21 +49,21 @@
   color: #f8fafc;
 }
 
-/* Estilo interno para o estado Ativo */
+
 .active {
   color: #3b82f6 !important;
   font-weight: 600;
 }
 
-/* Botão de Excluir dentro da borda */
+
 .deleteBtn {
-  background: rgba(0, 0, 0, 0.2); /* Fundo sutil para separar o X */
+  background: rgba(0, 0, 0, 0.2); 
   border: none;
-  border-left: 1px solid #334155; /* Linha divisória interna */
+  border-left: 1px solid #334155; 
   color: #64748b;
   font-size: 1.2rem;
   padding: 0 12px;
-  height: 100%; /* Ocupa a altura toda da borda */
+  height: 100%; 
   cursor: pointer;
   display: flex;
   align-items: center;

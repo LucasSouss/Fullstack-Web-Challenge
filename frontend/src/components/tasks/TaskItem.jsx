@@ -12,10 +12,10 @@ export default function TaskItem({ task, onComplete, onDelete }) {
   };
 
   const handleToggle = () => {
-  // Se está concluída, manda virar PENDENTE. Se não, manda virar CONCLUIDA.
+
   const newStatus = task.status === 'CONCLUIDA' ? 'PENDENTE' : 'CONCLUIDA';
   onComplete(task.id, newStatus); 
-}; // Agora passamos o novo status
+}; 
 
 
   return (

@@ -2,7 +2,7 @@ import { formatDate } from '../../utils/dateUtils';
 import styles from './ProjectCard.module.css';
 
 export default function ProjectCard({ project, onEdit, onDelete, onViewTasks }) {
-  // Pegar apenas a primeira tarefa para mostrar no card (como no seu layout)
+  
   const firstTask = project.tasks?.[0];
   
   const taskStats = {

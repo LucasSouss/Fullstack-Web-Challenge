@@ -1,15 +1,14 @@
 .mainContainer {
   display: flex;
   height: 100vh;
-  background-color: #0f172a; /* Slate 950 - Fundo Geral */
+  background-color: #0f172a; 
   color: #f8fafc;
-  overflow: hidden; /* Evita scroll na página inteira, apenas nos containers internos */
+  overflow: hidden;
 }
 
-/* BARRA LATERAL (SIDEBAR) */
 .sidebar {
   width: 280px;
-  background-color: #1e293b; /* Slate 800 */
+  background-color: #1e293b; 
   border-right: 1px solid #334155;
   display: flex;
   flex-direction: column;
@@ -26,9 +25,8 @@
   padding-left: 12px;
 }
 
-/* BOTÃO DE NOVO PROJETO NA SIDEBAR */
 .addNewBtn {
-  margin-top: auto; /* Empurra o botão para o final da sidebar */
+  margin-top: auto;
   background-color: #3b82f6;
   color: white;
   border: none;
@@ -47,15 +45,14 @@
   filter: brightness(1.1);
 }
 
-/* ÁREA DE CONTEÚDO PRINCIPAL (TASKLIST) */
 .contentArea {
   flex: 1;
   padding: 40px;
-  overflow-y: auto; /* Scroll apenas aqui se a lista de tarefas for longa */
+  overflow-y: auto;
   background-color: #0f172a;
 }
 
-/* ESTADO VAZIO (QUANDO NÃO HÁ PROJETO SELECIONADO) */
+
 .emptyState {
   height: 100%;
   display: flex;
@@ -69,7 +66,56 @@
   margin: 20px;
 }
 
-/* AJUSTE PARA O MODAL DENTRO DESTA PÁGINA */
+.modalFormGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modalInput {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #1e293b;
+}
+
+.inputError {
+  border: 2px solid #ef4444;
+}
+
+.errorMessage {
+  color: #ef4444;
+  font-size: 0.875rem;
+}
+
+.modalActions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.cancelBtn {
+  padding: 0.5rem 1rem;
+  background: #e5e7eb;
+  color: #374151;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.createdBtn{
+  padding: 0.5rem 1rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
 .mainContainer :global(p) {
   margin: 8px 0;
   color: #cbd5e1;

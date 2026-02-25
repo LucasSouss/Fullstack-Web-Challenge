@@ -13,7 +13,6 @@ export default function TaskForm({ onSubmit, onCancel, projectId, initialData })
 
   useEffect(() => {
     if (initialData) {
-      // Para edição: converter data para formato de input (YYYY-MM-DD)
       const dateStr = initialData.dueDate?.split('T')[0] || '';
       setFormData({
         title: initialData.title,
@@ -26,7 +25,6 @@ export default function TaskForm({ onSubmit, onCancel, projectId, initialData })
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    // Limpa o erro do campo quando o usuário começa a digitar
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -71,7 +69,7 @@ export default function TaskForm({ onSubmit, onCancel, projectId, initialData })
       setLoading(true);
       await onSubmit({
         ...formData,
-        dueDate: formData.dueDate, // Envia como YYYY-MM-DD string
+        dueDate: formData.dueDate, 
         projectId
       });
       setFormData({ title: '', responsible: '', dueDate: '' });

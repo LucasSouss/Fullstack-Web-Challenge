@@ -25,7 +25,7 @@ export const isOverdue = (dateString) => {
   if (!dateString) return false;
   const today = new Date();
   const todayStr = toISODateString(today);
-  // Comparar como strings YYYY-MM-DD
+  
   const dueStr = dateString.split("T")[0];
   return dueStr < todayStr;
 };

@@ -35,7 +35,8 @@ export default function Home() {
     try {
       setLoading(true);
       
-      await taskUtilsService.updateOverdueTasks(); // carrega tarefas vencidas
+      //CARREGA TAREFAS VENCIDAS
+      await taskUtilsService.updateOverdueTasks(); 
       const data = await projectService.listAll();
       setProjects(data);
       if (data.length > 0) {
@@ -49,6 +50,7 @@ export default function Home() {
     }
   }
 
+    //EXCLUIR PROJETO
   const handleConfirmDeleteProject = async () => {
     if (projectToDelete) {
       await projectService.delete(projectToDelete.id);
@@ -95,54 +97,49 @@ export default function Home() {
             setEditProjectError("");
           }}
         />
-              {/* MODAL DE EDIÇÃO DE PROJETO */}
-              <Modal
-                isOpen={!!projectToEdit}
-                onClose={() => {
-                  setProjectToEdit(null);
-                  setEditProjectName("");
-                  setEditProjectError("");
-                }}
-                title="Editar Projeto"
-                showConfirm={true}
-                onConfirm={async () => {
-                  if (!editProjectName.trim()) {
-                    setEditProjectError("O nome do projeto é obrigatório");
-                    return;
-                  }
-                  try {
-                    await projectService.update(projectToEdit.id, editProjectName);
-                    setProjectToEdit(null);
-                    setEditProjectName("");
-                    setEditProjectError("");
-                    await loadData();
-                  } catch (err) {
-                    setEditProjectError("Erro ao editar projeto");
-                  }
-                }}
-                confirmText="Salvar"
-              >
-                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                  <input
-                    type="text"
-                    placeholder="Nome do projeto"
-                    value={editProjectName}
-                    onChange={e => {
-                      setEditProjectName(e.target.value);
-                      if (editProjectError) setEditProjectError("");
-                    }}
-                    style={{
-                      padding: "0.75rem",
-                      border: editProjectError ? "2px solid #ef4444" : "1px solid #ccc",
-                      borderRadius: "0.375rem",
-                      fontSize: "1rem"
-                    }}
-                  />
-                  {editProjectError && (
-                    <span style={{ color: "#ef4444", fontSize: "0.875rem" }}>{editProjectError}</span>
-                  )}
-                </div>
-              </Modal>
+        {/* MODAL DE EDIÇÃO DE PROJETO */}
+        <Modal
+          isOpen={!!projectToEdit}
+          onClose={() => {
+            setProjectToEdit(null);
+            setEditProjectName("");
+            setEditProjectError("");
+          }}
+          title="Editar Projeto"
+          showConfirm={true}
+          onConfirm={async () => {
+            if (!editProjectName.trim()) {
+              setEditProjectError("O nome do projeto é obrigatório");
+              return;
+            }
+            try {
+              await projectService.update(projectToEdit.id, editProjectName);
+              setProjectToEdit(null);
+              setEditProjectName("");
+              setEditProjectError("");
+              await loadData();
+            } catch (err) {
+              setEditProjectError("Erro ao editar projeto");
+            }
+          }}
+          confirmText="Salvar"
+        >
+          <div className={styles.modalFormGroup}>
+            <input
+              type="text"
+              placeholder="Nome do projeto"
+              className={`${styles.modalInput} ${editProjectError ? styles.inputError : ""}`}
+              value={editProjectName}
+              onChange={e => {
+                setEditProjectName(e.target.value);
+                if (editProjectError) setEditProjectError("");
+              }}
+            />
+            {editProjectError && (
+              <span className={styles.errorMessage}>{editProjectError}</span>
+            )}
+          </div>
+        </Modal>
         <button
           className={styles.addNewBtn}
           onClick={() => setShowAddProjectModal(true)}
@@ -195,8 +192,6 @@ export default function Home() {
                 await loadData();
               } catch (err) {
                 console.error("Erro completo ao deletar tarefa:", err);
-                console.error("Status:", err.response?.status);
-                console.error("Dados do erro:", err.response?.data);
                 alert("Erro ao deletar tarefa");
               }
             }}
@@ -230,54 +225,34 @@ export default function Home() {
         }}
         title="Novo Projeto"
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <div className={styles.modalFormGroup}>
           <input
             type="text"
             placeholder="Nome do projeto"
+            className={`${styles.modalInput} ${projectNameError ? styles.inputError : ""}`}
             value={newProjectName}
             onChange={(e) => {
               setNewProjectName(e.target.value);
               if (projectNameError) setProjectNameError("");
             }}
-            style={{
-              padding: "0.75rem",
-              border: projectNameError ? "2px solid #ef4444" : "1px solid #ccc",
-              borderRadius: "0.375rem",
-              fontSize: "1rem"
-            }}
           />
           {projectNameError && (
-            <span style={{ color: "#ef4444", fontSize: "0.875rem" }}>{projectNameError}</span>
+            <span className={styles.errorMessage}>{projectNameError}</span>
           )}
-          <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end" }}>
+          <div className={styles.modalActions}>
             <button
+              className={styles.cancelBtn}
               onClick={() => {
                 setShowAddProjectModal(false);
                 setNewProjectName("");
                 setProjectNameError("");
               }}
-              style={{
-                padding: "0.5rem 1rem",
-                background: "#e5e7eb",
-                border: "none",
-                borderRadius: "0.375rem",
-                cursor: "pointer",
-                fontSize: "0.9rem"
-              }}
             >
               Cancelar
             </button>
             <button
+              className={styles.createdBtn}
               onClick={handleAddProject}
-              style={{
-                padding: "0.5rem 1rem",
-                background: "#3b82f6",
-                color: "white",
-                border: "none",
-                borderRadius: "0.375rem",
-                cursor: "pointer",
-                fontSize: "0.9rem"
-              }}
             >
               Criar
             </button>
