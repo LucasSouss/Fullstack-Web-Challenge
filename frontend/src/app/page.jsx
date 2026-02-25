@@ -20,19 +20,22 @@ export default function Home() {
   const [showAddProjectModal, setShowAddProjectModal] = useState(false);
   const [newProjectName, setNewProjectName] = useState("");
   const [projectNameError, setProjectNameError] = useState("");
+  const [projectToEdit, setProjectToEdit] = useState(null);
+  const [editProjectName, setEditProjectName] = useState("");
+  const [editProjectError, setEditProjectError] = useState("");
 
   useEffect(() => {
     loadData();
   }, []);
 
-  const allTasks = projects.map((p) => p.tasks || []);
+  const allTasks = projects.flatMap((p) => p.tasks || []);
   const { notifications, removeNotification } = useNotifications(allTasks);
 
   async function loadData() {
     try {
       setLoading(true);
-      // Atualiza tarefas vencidas no backend antes de carregar projetos
-      await taskUtilsService.updateOverdueTasks();
+      
+      await taskUtilsService.updateOverdueTasks(); // carrega tarefas vencidas
       const data = await projectService.listAll();
       setProjects(data);
       if (data.length > 0) {
@@ -86,7 +89,60 @@ export default function Home() {
           selectedId={selectedProject?.id}
           onViewTasks={(p) => setSelectedProject(p)}
           onDeleteProject={(p) => setProjectToDelete(p)}
+          onEditProject={(p) => {
+            setProjectToEdit(p);
+            setEditProjectName(p.name);
+            setEditProjectError("");
+          }}
         />
+              {/* MODAL DE EDIÇÃO DE PROJETO */}
+              <Modal
+                isOpen={!!projectToEdit}
+                onClose={() => {
+                  setProjectToEdit(null);
+                  setEditProjectName("");
+                  setEditProjectError("");
+                }}
+                title="Editar Projeto"
+                showConfirm={true}
+                onConfirm={async () => {
+                  if (!editProjectName.trim()) {
+                    setEditProjectError("O nome do projeto é obrigatório");
+                    return;
+                  }
+                  try {
+                    await projectService.update(projectToEdit.id, editProjectName);
+                    setProjectToEdit(null);
+                    setEditProjectName("");
+                    setEditProjectError("");
+                    await loadData();
+                  } catch (err) {
+                    setEditProjectError("Erro ao editar projeto");
+                  }
+                }}
+                confirmText="Salvar"
+              >
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  <input
+                    type="text"
+                    placeholder="Nome do projeto"
+                    value={editProjectName}
+                    onChange={e => {
+                      setEditProjectName(e.target.value);
+                      if (editProjectError) setEditProjectError("");
+                    }}
+                    style={{
+                      padding: "0.75rem",
+                      border: editProjectError ? "2px solid #ef4444" : "1px solid #ccc",
+                      borderRadius: "0.375rem",
+                      fontSize: "1rem"
+                    }}
+                  />
+                  {editProjectError && (
+                    <span style={{ color: "#ef4444", fontSize: "0.875rem" }}>{editProjectError}</span>
+                  )}
+                </div>
+              </Modal>
         <button
           className={styles.addNewBtn}
           onClick={() => setShowAddProjectModal(true)}

@@ -4,6 +4,7 @@ import TaskItem from './TaskItem';
 import TaskForm from './TaskForm';
 import Modal from '../common/Modal';
 import styles from './TaskList.module.css';
+import { FaPen } from "react-icons/fa"
 
 export default function TaskList({ 
   project, 
@@ -116,13 +117,10 @@ export default function TaskList({
                 onComplete={onCompleteTask}
                 onDelete={handleDeleteClick}
               />
-              {/* ACRESCENTADO: Botão de Edição */}
-              <button 
-                onClick={() => setTaskToEdit(task)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}
-                title="Editar tarefa"
+              
+              <button className={styles.editTaskBtn}onClick={() => setTaskToEdit(task)}
               >
-                ✏️
+                <FaPen />
               </button>
             </div>
           ))

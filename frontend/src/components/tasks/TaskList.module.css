@@ -143,3 +143,22 @@
   transform: scale(1.05);
 }
 
+.editTaskBtn{
+  background: #00000033; 
+  border: 1px solid #b8bbc0; 
+  color: #64748b;
+  font-size: 0.8rem;
+  padding: 7px;
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+ 
+}
+
+.editTaskBtn:hover{
+  background-color: #21417c;
+  transform: scale(1.2);
+}
+
