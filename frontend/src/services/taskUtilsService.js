@@ -1,5 +1,6 @@
 import api from './api';
 
+//CHAMA SEMRPE QUE A PÁGINA É RECARREGADA
 const taskUtilsService = {
   async updateOverdueTasks() {
     try {

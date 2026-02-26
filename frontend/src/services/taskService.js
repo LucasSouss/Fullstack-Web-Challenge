@@ -23,7 +23,7 @@ const taskService = {
 
   async complete(id) {
     try {
-      const response = await api.patch(`/tasks/${id}/complete`, { status });
+      const response = await api.patch(`/tasks/${id}/complete`, { status: "CONCLUIDA" });
   return response.data;
     } catch (error) {
       console.error('Erro ao completar tarefa:', error);
