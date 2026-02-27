@@ -509,8 +509,7 @@ npm run test
 ### Pré-requisitos
 - Node.js 18 ou superior
 - npm ou yarn
-- .env: DATABASE_URL="mongodb+srv://lucsouss:eKW277sbSshxXHKn@spdb0.dw73gqf.mongodb.net/SPdb0
-?appName=SPdb0"
+
 
 ### Passo a Passo
 
