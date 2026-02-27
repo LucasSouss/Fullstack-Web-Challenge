@@ -1,6 +1,6 @@
 # 📋 **Gerenciador de Projetos e Tarefas**
 
-Aplicação fullstack para gerenciamento de projetos e tarefas, desenvolvida como teste técnico para posição júnior.
+Aplicação fullstack para gerenciamento de projetos e tarefa.
 
 ---
 
